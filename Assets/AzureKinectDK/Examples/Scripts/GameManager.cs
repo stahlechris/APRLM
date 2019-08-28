@@ -43,7 +43,6 @@ namespace APRLM.Game
             currentState = GameState.PlayScenePressed;
             CheckSettings();
             MakeBlockMan();
-			print(SceneManager.GetActiveScene().name);
         }
         private void Start()
         {
@@ -122,17 +121,16 @@ namespace APRLM.Game
         {
             for(int i=0;i<poseList.Count;i++)
             {
+                //Wait until the capturescene is loaded
 				yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
+                //then allow it to run its update method which streams and captures video/skeleton data
 				DebugRenderer.Instance.canUpdate = true;
 
-				for (int i2 = 0; i2 < 3; i2++)
-				{
-					DebugRenderer.Instance.TakeSinglePicture();
-				}
-				
-
+                //Wait until the capture is completed, by capturing X skeletons
 				yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
-				print("capture completed, state change");
+				print("capture completed, state change in GM");
+                //Load the menu
+                //todo update pose list
                 currentState = GameState.PlayScenePressed;
                 LoadScene(0); //this loaded 3 times
 

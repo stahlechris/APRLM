@@ -69,8 +69,15 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     //todo change to Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate,this));
     //control update to make more efficient...could put this update in gamemanager to control better
     //make a coroutine to link coroutine handles together and automate
+<<<<<<< Updated upstream
     public void TakeSinglePicture() // Update
 	{
+=======
+    //todo replace update with TakePictureOfSkeleton
+
+    void Update() //we learned this has to be in an update to stream => try switching it over to a timing.coroutine to have the bool flag control it
+    {
+>>>>>>> Stashed changes
         if (canUpdate)
         {
 			print("taking single picture");
@@ -109,15 +116,15 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 						var obj = debugObjects[i];
 						obj.transform.SetPositionAndRotation(v, r);
 
-						if (skeletons.Count > 5)
-						{
-							Debug.Log("we have enough skeletons");
-							Debug.Log(System.DateTime.Now);
-							//this.device.StopCameras();
-							//NativeMethods.k4a_device_stop_cameras(handle);
-							//this.device.Dispose();
+                        //Todo maybe just keep this update running the entirety of the pose capturing process...
+                        //but when we switch to the capture scene, then we start recording the data
+
+                        //Added control to limit to 5 skeletons, theoretically allowing this check to be entered only once
+						if (skeletons.Count > 4 && skeletons.Count < 6)
+                        {
+                            Debug.Log("we have enough skeletons");
 							GameManager.Instance.currentState = GameState.CaptureCompleted;
-							//print("state change");
+							//Disable this update loop from running this code
 							canUpdate = false;
 						}
 					}
@@ -126,7 +133,6 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
         }
     }
 
-	//currently testing not turning off camera until done with ALL poses
     //private void OnDisable()
     //{
     //    device.StopCameras();
@@ -146,63 +152,63 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     //Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate, this));
 
     //UNDER COSNTRUCTION
-    public void CustomUpdate()
-    {
-        if (canUpdate)
-        {
-            using (Capture capture = device.GetCapture())
-            {
-                tracker.EnqueueCapture(capture);
-                var color = capture.Color;
-                if (color.WidthPixels > 0)
-                {
-                    Texture2D tex = new Texture2D(color.WidthPixels, color.HeightPixels, TextureFormat.BGRA32, false);
-                    tex.LoadRawTextureData(color.GetBufferCopy());
-                    tex.Apply();
-                    renderer.material.mainTexture = tex;
-                }
-            }
+    //public void CustomUpdate()
+    //{
+    //    if (canUpdate)
+    //    {
+    //        using (Capture capture = device.GetCapture())
+    //        {
+    //            tracker.EnqueueCapture(capture);
+    //            var color = capture.Color;
+    //            if (color.WidthPixels > 0)
+    //            {
+    //                Texture2D tex = new Texture2D(color.WidthPixels, color.HeightPixels, TextureFormat.BGRA32, false);
+    //                tex.LoadRawTextureData(color.GetBufferCopy());
+    //                tex.Apply();
+    //                renderer.material.mainTexture = tex;
+    //            }
+    //        }
 
-            using (var frame = tracker.PopResult())
-            {
-                //Debug.LogFormat("{0} bodies found.", frame.NumBodies);
-                if (frame.NumBodies > 0)
-                {
-                    var bodyId = frame.GetBodyId(0);
-                    //Debug.LogFormat("bodyId={0}", bodyId);
-                    this.skeleton = frame.GetSkeleton(0);
-                    skeletons.Add(this.skeleton);
-                    for (var i = 0; i < (int)JointId.Count; i++)
-                    {
-                        var joint = this.skeleton.Joints[i];
-                        var pos = joint.Position;
-                        Debug.Log("pos: " + (JointId)i + " " + pos[0] + " " + pos[1] + " " + pos[2]); 
+    //        using (var frame = tracker.PopResult())
+    //        {
+    //            //Debug.LogFormat("{0} bodies found.", frame.NumBodies);
+    //            if (frame.NumBodies > 0)
+    //            {
+    //                var bodyId = frame.GetBodyId(0);
+    //                //Debug.LogFormat("bodyId={0}", bodyId);
+    //                this.skeleton = frame.GetSkeleton(0);
+    //                skeletons.Add(this.skeleton);
+    //                for (var i = 0; i < (int)JointId.Count; i++)
+    //                {
+    //                    var joint = this.skeleton.Joints[i];
+    //                    var pos = joint.Position;
+    //                    Debug.Log("pos: " + (JointId)i + " " + pos[0] + " " + pos[1] + " " + pos[2]); 
 
-                        var rot = joint.Orientation;
-                        Debug.Log("rot " + (JointId)i + " " + rot[0] + " " + rot[1] + " " + rot[2] + " " + rot[3]); // Length 4
-                        var v = new Vector3(pos[0], -pos[1], pos[2]) * 0.004f;
-                        var r = new Quaternion(rot[1], rot[2], rot[3], rot[0]);
-                        var obj = debugObjects[i];
-                        obj.transform.SetPositionAndRotation(v, r);
+    //                    var rot = joint.Orientation;
+    //                    Debug.Log("rot " + (JointId)i + " " + rot[0] + " " + rot[1] + " " + rot[2] + " " + rot[3]); // Length 4
+    //                    var v = new Vector3(pos[0], -pos[1], pos[2]) * 0.004f;
+    //                    var r = new Quaternion(rot[1], rot[2], rot[3], rot[0]);
+    //                    var obj = debugObjects[i];
+    //                    obj.transform.SetPositionAndRotation(v, r);
 
-                        if (skeletons.Count > 5	)
-                        {
-                            Debug.Log("we have enough skeletons");
-                            Debug.Log(System.DateTime.Now);
-                            //this.device.StopCameras();
-                            //NativeMethods.k4a_device_stop_cameras(handle);
-                            //this.device.Dispose();
-							GameManager.Instance.currentState = GameState.CaptureCompleted;
-							print("state change");
-							canUpdate = false;
+    //                    if (skeletons.Count > 5	)
+    //                    {
+    //                        Debug.Log("we have enough skeletons");
+    //                        Debug.Log(System.DateTime.Now);
+    //                        //this.device.StopCameras();
+    //                        //NativeMethods.k4a_device_stop_cameras(handle);
+    //                        //this.device.Dispose();
+				//			GameManager.Instance.currentState = GameState.CaptureCompleted;
+				//			print("state change");
+				//			canUpdate = false;
 
-                        }
-                    }
+    //                    }
+    //                }
 
-                }
-            }
-        }
-    }
+    //            }
+    //        }
+    //    }
+    //}
 
 
 
