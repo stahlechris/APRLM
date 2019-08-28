@@ -125,6 +125,12 @@ namespace APRLM.Game
 				yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
 				DebugRenderer.Instance.canUpdate = true;
 
+				for (int i2 = 0; i2 < 3; i2++)
+				{
+					DebugRenderer.Instance.TakeSinglePicture();
+				}
+				
+
 				yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
 				print("capture completed, state change");
                 currentState = GameState.PlayScenePressed;

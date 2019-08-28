@@ -69,10 +69,11 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     //todo change to Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate,this));
     //control update to make more efficient...could put this update in gamemanager to control better
     //make a coroutine to link coroutine handles together and automate
-    void Update()
-    {
+    public void TakeSinglePicture() // Update
+	{
         if (canUpdate)
         {
+			print("taking single picture");
             using (Capture capture = device.GetCapture())
             {
                 tracker.EnqueueCapture(capture);
@@ -88,7 +89,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 
             using (var frame = tracker.PopResult())
             {
-                //Debug.LogFormat("{0} bodies found.", frame.NumBodies);
+                Debug.LogFormat("{0} bodies found.", frame.NumBodies);
                 if (frame.NumBodies > 0)
                 {
                     var bodyId = frame.GetBodyId(0);
