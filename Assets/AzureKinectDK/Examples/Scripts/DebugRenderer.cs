@@ -17,7 +17,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 
     List<Skeleton> skeletons = new List<Skeleton>();
 
-    bool canUpdate = true;
+    public bool canUpdate;
     protected override void Awake()
     {
         base.Awake();
@@ -125,19 +125,20 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
         }
     }
 
-    private void OnDisable()
-    {
-        device.StopCameras();
-        //k4a_device_close(device) here.
-        if (tracker != null)
-        {
-            tracker.Dispose();
-        }
-        if (device != null)
-        {
-            device.Dispose();
-        }
-    }
+	//currently testing not turning off camera until done with ALL poses
+    //private void OnDisable()
+    //{
+    //    device.StopCameras();
+    //    //k4a_device_close(device) here.
+    //    if (tracker != null)
+    //    {
+    //        tracker.Dispose();
+    //    }
+    //    if (device != null)
+    //    {
+    //        device.Dispose();
+    //    }
+    //}
 
 
     //run below command in this classes start to simulate an update

@@ -43,6 +43,7 @@ namespace APRLM.Game
             currentState = GameState.PlayScenePressed;
             CheckSettings();
             MakeBlockMan();
+			print(SceneManager.GetActiveScene().name);
         }
         private void Start()
         {
@@ -121,6 +122,9 @@ namespace APRLM.Game
         {
             for(int i=0;i<poseList.Count;i++)
             {
+				yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
+				DebugRenderer.Instance.canUpdate = true;
+
 				yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
 				print("capture completed, state change");
                 currentState = GameState.PlayScenePressed;
