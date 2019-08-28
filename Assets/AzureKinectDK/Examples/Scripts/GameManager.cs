@@ -6,6 +6,7 @@ using UnityEditor;
 using Microsoft.Azure.Kinect.Sensor.BodyTracking;
 using System;
 using MEC;
+
 namespace APRLM.Game
 {
     public enum GameState
@@ -15,7 +16,8 @@ namespace APRLM.Game
         WaitingForUserToPressStart, //nothing to do, waiting for user
         StartButtonPressed, //The user has pressed the start button to begin capturing pose data
         ReadyNext,
-        ReadyNextCountDownOver
+        ReadyNextCountDownOver,
+        CaptureCompleted
             //TODO finish game states
             //TODO delegates for game states and message broadcasting, static events...etc
     }
@@ -42,6 +44,11 @@ namespace APRLM.Game
             CheckSettings();
             MakeBlockMan();
         }
+        private void Start()
+        {
+            Debug.Log("gm start called");
+            Timing.RunCoroutine(Main());
+        }
         public List<Pose> GetPoseList()
         {
             return poseList;
@@ -53,14 +60,36 @@ namespace APRLM.Game
                 Debug.Log("!No poses were dragged into the Pose List!");
                 EditorApplication.isPlaying = false;
             }
-            //current pose gets set to first Pose in the lsit
-            currentPose = poseList[0];
-        }
+            else
+            {
+                //currentPose gets set to first Pose in the list
+                currentPose = poseList[0];
+            }
 
+        }
+        private bool CheckForPoses()
+        {
+            if (poseList.Count < 1)
+            {
+                Debug.Log("!No poses were dragged into the Pose List!");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         public void LoadScene(int scene)
         {
-            //Load another scene on different thread
-            SceneManager.LoadSceneAsync(scene);
+            if(CheckForPoses())
+            {
+                //Load another scene on different thread
+                SceneManager.LoadSceneAsync(scene);
+            }
+            else
+            {
+                EditorApplication.isPlaying = false;
+            }
         }
         //todo put block man under this GameManager so they dont dissapear
         private void MakeBlockMan()
@@ -92,7 +121,9 @@ namespace APRLM.Game
         {
             for(int i=0;i<poseList.Count;i++)
             {
-                yield return Timing.WaitUntilTrue(() => currentState == GameState.ReadyNextCountDownOver);
+                yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
+                currentState = GameState.PlayScenePressed;
+                LoadScene(0); //this loaded 3 times
 
             }
             yield return Timing.WaitForOneFrame;

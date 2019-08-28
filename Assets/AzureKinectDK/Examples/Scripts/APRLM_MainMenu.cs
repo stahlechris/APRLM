@@ -24,20 +24,10 @@ namespace APRLM.UI
                 poseText.text += p.poseName.ToString() + "\n";
             }
         }
-        private void LoadPosesIntoPoseList()
-        {
 
-        }
         public void StartButton_LinkedToButton()
 		{
             GameManager.Instance.LoadScene((int)SceneEnums.Scenes.ReadyNext);
 		}
-
-        public void TestPrint()
-        {
-            print("cum");
-        }
-
-
 	}
 }
