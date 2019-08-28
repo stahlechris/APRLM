@@ -121,7 +121,8 @@ namespace APRLM.Game
         {
             for(int i=0;i<poseList.Count;i++)
             {
-                yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
+				yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
+				print("capture completed, state change");
                 currentState = GameState.PlayScenePressed;
                 LoadScene(0); //this loaded 3 times
 
