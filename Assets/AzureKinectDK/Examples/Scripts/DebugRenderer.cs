@@ -17,7 +17,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 
     List<Skeleton> skeletons = new List<Skeleton>();
 
-    bool canUpdate = false;
+    bool canUpdate = true;
     protected override void Awake()
     {
         base.Awake();
@@ -27,11 +27,11 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     private void InitCamera() //this all used to be in OnEnable, before what is there now
     {
         this.device = Device.Open(0);
-        var config = new DeviceConfiguration
-        {
-            ColorResolution = ColorResolution.r720p,
-            ColorFormat = ImageFormat.ColorBGRA32,
-            DepthMode = DepthMode.NFOV_Unbinned
+		var config = new DeviceConfiguration
+		{
+			ColorResolution = ColorResolution.r720p,
+			ColorFormat = ImageFormat.ColorBGRA32,
+			DepthMode = DepthMode.NFOV_Unbinned
         };
         device.StartCameras(config);
 
