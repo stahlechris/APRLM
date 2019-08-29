@@ -69,15 +69,9 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     //todo change to Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate,this));
     //control update to make more efficient...could put this update in gamemanager to control better
     //make a coroutine to link coroutine handles together and automate
-<<<<<<< Updated upstream
-    public void TakeSinglePicture() // Update
-	{
-=======
-    //todo replace update with TakePictureOfSkeleton
 
     void Update() //we learned this has to be in an update to stream => try switching it over to a timing.coroutine to have the bool flag control it
     {
->>>>>>> Stashed changes
         if (canUpdate)
         {
 			print("taking single picture");
