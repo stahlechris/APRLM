@@ -21,6 +21,7 @@ namespace APRLM.Game
             //TODO finish game states
             //TODO delegates for game states and message broadcasting, static events...etc
     }
+
     public class GameManager : PersistantSingleton<GameManager>
     {
 
@@ -91,6 +92,20 @@ namespace APRLM.Game
                 EditorApplication.isPlaying = false;
             }
         }
+
+        public void LoadSceneAdditive(int scene)
+        {
+            if (CheckForPoses())
+            {
+                //Load another scene on different thread
+                SceneManager.LoadSceneAsync(scene,LoadSceneMode.Additive);
+            }
+            else
+            {
+                EditorApplication.isPlaying = false;
+            }
+        }
+
         //todo put block man under this GameManager so they dont dissapear
         private void MakeBlockMan()
         {
@@ -112,6 +127,7 @@ namespace APRLM.Game
                 //add our cube to the skeleton[]
                 blockman[i] = cube;
             }
+
         }
 
         //todo maybe this gm should just have a main coroutine thing that controls whole program?
@@ -121,21 +137,20 @@ namespace APRLM.Game
         {
             for(int i=0;i<poseList.Count;i++)
             {
-                //Wait until the capturescene is loaded
-				yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
-                //then allow it to run its update method which streams and captures video/skeleton data
-				DebugRenderer.Instance.canUpdate = true;
+                yield return Timing.WaitForOneFrame;
+    //            //Wait until the capturescene is loaded
+				//yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
+    //            //then allow it to run its update method which streams and captures video/skeleton data
+				//DebugRenderer.Instance.canUpdate = true;
 
                 //Wait until the capture is completed, by capturing X skeletons
-				yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
-				print("capture completed, state change in GM");
-                //Load the menu
-                //todo update pose list
-                currentState = GameState.PlayScenePressed;
-                LoadScene(0); //this loaded 3 times
-
+				//yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
+				//print("capture completed, state change in GM");
+    //            //Load the menu
+    //            //todo update pose list
+    //            currentState = GameState.PlayScenePressed;
+    //            LoadScene(0); //this loaded 3 times
             }
-            yield return Timing.WaitForOneFrame;
         }
 
     }

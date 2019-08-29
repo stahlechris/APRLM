@@ -6,6 +6,7 @@ using Microsoft.Azure.Kinect.Sensor.BodyTracking;
 using Stahle.Utility;
 using APRLM.Game;
 using MEC;
+
 public class DebugRenderer : PersistantSingleton<DebugRenderer>
 {
     Device device;
@@ -48,22 +49,6 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
         {
             go.SetActive(true);
         }
-        ////initialize our GO[] with a size of jointId.count
-        //debugObjects = new GameObject[(int)JointId.Count];
-        ////loop through all the joints
-        //for (var i = 0; i < (int)JointId.Count; i++)
-        //{
-        //    //TODO make sure this only runs once before it gets to this scene aka cache all this shit
-
-        //    //make a cube for every joint
-        //    var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        //    //give cube a name of matching joint
-        //    cube.name = Enum.GetName(typeof(JointId), i);
-        //    //why do we multiply by .4?  idk
-        //    cube.transform.localScale = Vector3.one * 0.4f;
-        //    //add our cube to the skeleton[]
-        //    debugObjects[i] = cube;
-        //}
     }
 
     //todo change to Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate,this));
@@ -74,7 +59,6 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     {
         if (canUpdate)
         {
-			print("taking single picture");
             using (Capture capture = device.GetCapture())
             {
                 tracker.EnqueueCapture(capture);
@@ -102,7 +86,6 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 						var joint = this.skeleton.Joints[i];
 						var pos = joint.Position;
 						//Debug.Log("pos: " + (JointId)i + " " + pos[0] + " " + pos[1] + " " + pos[2]);
-
 						var rot = joint.Orientation;
 						//Debug.Log("rot " + (JointId)i + " " + rot[0] + " " + rot[1] + " " + rot[2] + " " + rot[3]); // Length 4
 						var v = new Vector3(pos[0], -pos[1], pos[2]) * 0.004f;
@@ -110,10 +93,6 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 						var obj = debugObjects[i];
 						obj.transform.SetPositionAndRotation(v, r);
 
-                        //Todo maybe just keep this update running the entirety of the pose capturing process...
-                        //but when we switch to the capture scene, then we start recording the data
-
-                        //Added control to limit to 5 skeletons, theoretically allowing this check to be entered only once
 						if (skeletons.Count > 4 && skeletons.Count < 6)
                         {
                             Debug.Log("we have enough skeletons");
