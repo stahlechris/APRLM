@@ -22,8 +22,21 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     protected override void Awake()
     {
         base.Awake();
-        InitCamera();
+		//InitCamera();
+		print("awake");
     }
+
+	public void Start()
+	{
+		print("starting");
+		//get pregenerated blockman from GM (it lives in GM but we access via reference)
+		debugObjects = GameManager.Instance.blockman;
+		foreach (GameObject go in debugObjects)
+		{
+			go.SetActive(true);
+		}
+		InitCamera();
+	}
 
     private void InitCamera() //this all used to be in OnEnable, before what is there now
     {
@@ -43,12 +56,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     }
     private void OnEnable()
     {
-        //get pregenerated blockman from GM (it lives in GM but we access via reference)
-        debugObjects = GameManager.Instance.blockman;
-        foreach(GameObject go in debugObjects)
-        {
-            go.SetActive(true);
-        }
+        
     }
 
     //todo change to Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate,this));
