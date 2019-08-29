@@ -149,8 +149,10 @@ namespace APRLM.Game
                 //Load the menu
                 //todo update pose list
                 currentState = GameState.PlayScenePressed;
-                //LoadScene(0); //this loaded 3 times
+                //LoadScene(0);
                 LoadSceneAdditive((int)SceneEnums.Scenes.MainMenu);
+
+                
             }
         }
 

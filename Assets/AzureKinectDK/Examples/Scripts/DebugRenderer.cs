@@ -22,14 +22,10 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     protected override void Awake()
     {
         base.Awake();
-		//InitCamera();
-		print("awake");
     }
 
 	public void Start()
 	{
-		print("starting");
-		//get pregenerated blockman from GM (it lives in GM but we access via reference)
 		debugObjects = GameManager.Instance.blockman;
 		foreach (GameObject go in debugObjects)
 		{
@@ -38,7 +34,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 		InitCamera();
 	}
 
-    private void InitCamera() //this all used to be in OnEnable, before what is there now
+    private void InitCamera()
     {
         this.device = Device.Open(0);
 		var config = new DeviceConfiguration
@@ -54,19 +50,12 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
         //initialize a tracker with the calibration we just made
         this.tracker = BodyTracker.Create(calibration);
     }
-    private void OnEnable()
-    {
-        
-    }
 
-    //todo change to Timing.RunCoroutine(Utility._EmulateUpdate(CustomUpdate,this));
-    //control update to make more efficient...could put this update in gamemanager to control better
-    //make a coroutine to link coroutine handles together and automate
-
-    void Update() //we learned this has to be in an update to stream => try switching it over to a timing.coroutine to have the bool flag control it
+    void Update() 
     {
-        if (canUpdate)
+        if (canUpdate && skeletons.Count < 5)
         {
+            //this streams camera output as a texture to a plane in the scene
             using (Capture capture = device.GetCapture())
             {
                 tracker.EnqueueCapture(capture);
@@ -79,6 +68,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
                     renderer.material.mainTexture = tex;
                 }
             }
+
 
             using (var frame = tracker.PopResult())
             {
@@ -100,17 +90,16 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 						var r = new Quaternion(rot[1], rot[2], rot[3], rot[0]);
 						var obj = debugObjects[i];
 						obj.transform.SetPositionAndRotation(v, r);
-
-						if (skeletons.Count > 4 && skeletons.Count < 6)
-                        {
-                            Debug.Log("we have enough skeletons");
-							GameManager.Instance.currentState = GameState.CaptureCompleted;
-							//Disable this update loop from running this code
-							canUpdate = false;
-						}
 					}
                 }
             }
+        }
+        else if(canUpdate)
+        {
+            Debug.Log("we have enough skeletons");
+            GameManager.Instance.currentState = GameState.CaptureCompleted;
+            //Disable this update loop from running this code
+            canUpdate = false;
         }
     }
 
