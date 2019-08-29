@@ -138,18 +138,19 @@ namespace APRLM.Game
             for(int i=0;i<poseList.Count;i++)
             {
                 yield return Timing.WaitForOneFrame;
-    //            //Wait until the capturescene is loaded
-				//yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
-    //            //then allow it to run its update method which streams and captures video/skeleton data
-				//DebugRenderer.Instance.canUpdate = true;
+                //            //Wait until the capturescene is loaded
+                //yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
+                //            //then allow it to run its update method which streams and captures video/skeleton data
+                //DebugRenderer.Instance.canUpdate = true;
 
                 //Wait until the capture is completed, by capturing X skeletons
-				//yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
-				//print("capture completed, state change in GM");
-    //            //Load the menu
-    //            //todo update pose list
-    //            currentState = GameState.PlayScenePressed;
-    //            LoadScene(0); //this loaded 3 times
+                yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
+                print("capture completed, state change in GM");
+                //Load the menu
+                //todo update pose list
+                currentState = GameState.PlayScenePressed;
+                //LoadScene(0); //this loaded 3 times
+                LoadSceneAdditive((int)SceneEnums.Scenes.MainMenu);
             }
         }
 

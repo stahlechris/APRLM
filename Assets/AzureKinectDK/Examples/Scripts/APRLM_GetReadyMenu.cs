@@ -23,6 +23,8 @@ public class APRLM_GetReadyMenu : MonoBehaviour
         countdownText.text += "2...";
         yield return new WaitForSeconds(1);
         countdownText.text += "1...";
+
+
         GameManager.Instance.LoadScene((int)SceneEnums.Scenes.Capture);
     }
 }
