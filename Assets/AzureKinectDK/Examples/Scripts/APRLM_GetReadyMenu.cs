@@ -24,7 +24,9 @@ public class APRLM_GetReadyMenu : MonoBehaviour
         yield return new WaitForSeconds(1);
         countdownText.text += "1...";
 
-
+        //addition 4.9.2019
+        //clear the skeletons before entering the capture scene
+        DebugRenderer.Instance.skeletons.Clear();
         GameManager.Instance.LoadScene((int)SceneEnums.Scenes.Capture);
     }
 }

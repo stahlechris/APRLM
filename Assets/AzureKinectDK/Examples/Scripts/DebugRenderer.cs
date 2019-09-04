@@ -16,9 +16,10 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     GameObject[] debugObjects;
     public Renderer renderer;
 
-    List<Skeleton> skeletons = new List<Skeleton>();
+    public List<Skeleton> skeletons = new List<Skeleton>();
 
-    public bool canUpdate;
+    public bool canUpdate = true;
+
     protected override void Awake()
     {
         base.Awake();
@@ -53,7 +54,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 
     void Update() 
     {
-        if (canUpdate && skeletons.Count < 5)
+        if (canUpdate)
         {
             //this streams camera output as a texture to a plane in the scene
             using (Capture capture = device.GetCapture())
@@ -69,7 +70,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
                 }
             }
 
-
+            //this gets skeleton data from frames and pulls individual joint data from the skeleton to apply to blocks that represent joints
             using (var frame = tracker.PopResult())
             {
                 Debug.LogFormat("{0} bodies found.", frame.NumBodies);
@@ -93,15 +94,16 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 					}
                 }
             }
-        }
-        else if(canUpdate)
-        {
-            Debug.Log("we have enough skeletons");
-            GameManager.Instance.currentState = GameState.CaptureCompleted;
-            //Disable this update loop from running this code
-            canUpdate = false;
-        }
-    }
+            if (skeletons.Count > 4) // and the current scene is CaptureScene
+            {
+                Debug.Log("we have enough skeletons");
+                GameManager.Instance.currentState = GameState.CaptureCompleted;
+                //Disable this Update loop's logic from running
+                canUpdate = false;
+            }
+
+        }//end if(canUpdate) 
+    }//end Update()
 
     //private void OnDisable()
     //{
@@ -179,39 +181,4 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     //        }
     //    }
     //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

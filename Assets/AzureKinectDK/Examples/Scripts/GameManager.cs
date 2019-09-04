@@ -49,6 +49,8 @@ namespace APRLM.Game
         {
             Debug.Log("gm start called");
             Timing.RunCoroutine(Main());
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         public List<Pose> GetPoseList()
         {
@@ -68,6 +70,20 @@ namespace APRLM.Game
             }
 
         }
+        private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
+        {
+            print(scene.name);
+
+            if(scene.name == "CaptureScene")
+            {
+                DebugRenderer.Instance.canUpdate = true;
+                ///addition 9.4/2019
+                print(scene.name + "printed because if(scene.name == CaptureScene)");
+                //if we are in the capture scene, the countdown is over
+                currentState = GameState.ReadyNextCountDownOver;
+            }
+        }
+
         private bool CheckForPoses()
         {
             if (poseList.Count < 1)
@@ -130,31 +146,32 @@ namespace APRLM.Game
 
         }
 
-        //todo maybe this gm should just have a main coroutine thing that controls whole program?
-        //can replace the firing of static events with global bool flags stored on this gm?
-        //maybe consolidate scenes for simplicity for now
         IEnumerator<float> Main()
         {
             for(int i=0;i<poseList.Count;i++)
             {
-                yield return Timing.WaitForOneFrame;
-                //            //Wait until the capturescene is loaded
-                //yield return Timing.WaitUntilTrue(() => SceneManager.GetActiveScene().name == "CaptureScene");
-                //            //then allow it to run its update method which streams and captures video/skeleton data
-                //DebugRenderer.Instance.canUpdate = true;
-
                 //Wait until the capture is completed, by capturing X skeletons
                 yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
                 print("capture completed, state change in GM");
+
+                //clear the list
+                DebugRenderer.Instance.skeletons.Clear();
+                ///addition 9.4/2019
+                //todo test if the skeletons are actually cleared when we get here, else they will need to be cleared GetRdyMenu.cs
+
                 //Load the menu
                 //todo update pose list
                 currentState = GameState.PlayScenePressed;
-                //LoadScene(0);
-                LoadSceneAdditive((int)SceneEnums.Scenes.MainMenu);
 
-                
+                //this is here for testing if the pose list gets decremented, we want to load back to ReadyNextMenu irl
+                LoadScene((int)SceneEnums.Scenes.MainMenu);
             }
         }
-
+        private void OnDisable()//a persistant singleton class will only have this called once, when program ending.
+        {
+            print("OnDisabled GM");
+            //Must unsubscribe from event, else explosion.
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 }
