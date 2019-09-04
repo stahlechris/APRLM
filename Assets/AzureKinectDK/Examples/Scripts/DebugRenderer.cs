@@ -105,19 +105,22 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
         }//end if(canUpdate) 
     }//end Update()
 
-    //private void OnDisable()
-    //{
-    //    device.StopCameras();
-    //    //k4a_device_close(device) here.
-    //    if (tracker != null)
-    //    {
-    //        tracker.Dispose();
-    //    }
-    //    if (device != null)
-    //    {
-    //        device.Dispose();
-    //    }
-    //}
+    private void OnDisable()
+    {
+
+        //todo test if only called once at the end of the program, if so, renable the below
+        print("DebugRenderer onDisable was called");
+        //device.StopCameras();
+        ////k4a_device_close(device) here.
+        //if (tracker != null)
+        //{
+        //    tracker.Dispose();
+        //}
+        //if (device != null)
+        //{
+        //    device.Dispose();
+        //}
+    }
 
 
     //run below command in this classes start to simulate an update
@@ -170,9 +173,9 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
     //                        //this.device.StopCameras();
     //                        //NativeMethods.k4a_device_stop_cameras(handle);
     //                        //this.device.Dispose();
-				//			GameManager.Instance.currentState = GameState.CaptureCompleted;
-				//			print("state change");
-				//			canUpdate = false;
+    //			GameManager.Instance.currentState = GameState.CaptureCompleted;
+    //			print("state change");
+    //			canUpdate = false;
 
     //                    }
     //                }

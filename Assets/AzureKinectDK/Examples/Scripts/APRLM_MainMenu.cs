@@ -27,7 +27,6 @@ namespace APRLM.UI
 
         public void StartButton_LinkedToButton()
 		{
-            //GameManager.Instance.LoadSceneAdditive((int)SceneEnums.Scenes.ReadyNext);
             GameManager.Instance.LoadScene((int)SceneEnums.Scenes.ReadyNext);
 		}
 	}
