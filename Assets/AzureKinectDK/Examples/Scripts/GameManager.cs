@@ -50,7 +50,7 @@ namespace APRLM.Game
             Debug.Log("gm start called");
             Timing.RunCoroutine(Main());
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            //SceneManager.sceneLoaded += OnSceneLoaded;
         }
         public List<Pose> GetPoseList()
         {
@@ -68,21 +68,20 @@ namespace APRLM.Game
                 //currentPose gets set to first Pose in the list
                 currentPose = poseList[0];
             }
-
         }
-        private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
-        {
-            print(scene.name);
+        //private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
+        //{
+        //    print(scene.name);
 
-            if(scene.name == "CaptureScene")
-            {
-                DebugRenderer.Instance.canUpdate = true;
-                ///addition 9.4/2019
-                print(scene.name + "printed because if(scene.name == CaptureScene)");
-                //if we are in the capture scene, the countdown is over
-                currentState = GameState.ReadyNextCountDownOver;
-            }
-        }
+        //    if(scene.name == "CaptureScene")
+        //    {
+        //        DebugRenderer.Instance.canUpdate = true;
+        //        ///addition 9.4/2019
+        //        print(scene.name + "printed because if(scene.name == CaptureScene)");
+        //        //if we are in the capture scene, the countdown is over
+        //        currentState = GameState.ReadyNextCountDownOver;
+        //    }
+        //}
 
         private bool CheckForPoses()
         {
@@ -143,7 +142,7 @@ namespace APRLM.Game
                 //add our cube to the skeleton[]
                 blockman[i] = cube;
             }
-
+            print("Blockman was created in GM");
         }
 
         IEnumerator<float> Main()
@@ -167,11 +166,11 @@ namespace APRLM.Game
                 LoadScene((int)SceneEnums.Scenes.MainMenu);
             }
         }
-        private void OnDisable()//a persistant singleton class will only have this called once, when program ending.
-        {
-            print("OnDisabled GM");
-            //Must unsubscribe from event, else explosion.
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
+        //private void OnDisable()//a persistant singleton class will only have this called once, when program ending.
+        //{
+        //    print("OnDisabled GM");
+        //    //Must unsubscribe from event, else explosion.
+        //    SceneManager.sceneLoaded -= OnSceneLoaded;
+        //}
     }
 }

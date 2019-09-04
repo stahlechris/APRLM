@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Microsoft.Azure.Kinect.Sensor.BodyTracking
 {
+    [System.Serializable]
     [StructLayout(LayoutKind.Sequential)]
     [Native.NativeReference("k4abt_skeleton_t")]
     public struct Skeleton
@@ -14,6 +15,7 @@ namespace Microsoft.Azure.Kinect.Sensor.BodyTracking
         public Joint[] Joints;
     }
 
+    [System.Serializable]
     [StructLayout(LayoutKind.Sequential)]
     [Native.NativeReference("k4abt_joint_t")]
     public struct Joint
