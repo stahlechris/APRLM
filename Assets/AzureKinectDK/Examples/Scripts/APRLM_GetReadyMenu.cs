@@ -24,10 +24,10 @@ public class APRLM_GetReadyMenu : MonoBehaviour
         yield return new WaitForSeconds(1);
         countdownText.text += "1...";
 
-        ////addition 4.9.2019
-        /////YOU cannot call the debugRenderer.instance until it has been encountered once, else explosion
+        //addition 4.9.2019
+        //YOU cannot call the debugRenderer.instance until it has been encountered once, else explosion
         //DebugRenderer.Instance.canUpdate = true;
-        ////clear the skeletons before entering the capture scene
+        //clear the skeletons before entering the capture scene
         //DebugRenderer.Instance.skeletons.Clear();
         GameManager.Instance.LoadScene((int)SceneEnums.Scenes.Capture);
     }

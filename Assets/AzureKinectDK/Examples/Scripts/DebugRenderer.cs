@@ -53,9 +53,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
         var calibration = device.GetCalibration(config.DepthMode, config.ColorResolution);
         //initialize a tracker with the calibration we just made
         this.tracker = BodyTracker.Create(calibration);
-        Debug.Break();
         renderer = GetComponent<Renderer>();
-        Debug.Break();
         canUpdate = true;
     }
 
@@ -73,7 +71,6 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
                     Texture2D tex = new Texture2D(color.WidthPixels, color.HeightPixels, TextureFormat.BGRA32, false);
                     tex.LoadRawTextureData(color.GetBufferCopy());
                     tex.Apply();
-                    Debug.Break();
                     renderer.material.mainTexture = tex;
                 }
             }

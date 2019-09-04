@@ -152,7 +152,8 @@ namespace APRLM.Game
                 //Wait until the capture is completed, by capturing X skeletons
                 yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
                 print("capture completed, state change in GM");
-
+				
+				// 9.4.2019 saw 5 in the Skeletons length in inspector, can write out before clearing
                 //clear the list
                 DebugRenderer.Instance.skeletons.Clear();
                 ///addition 9.4/2019
