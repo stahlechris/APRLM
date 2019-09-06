@@ -145,9 +145,13 @@ namespace APRLM.Game
             }
             print("Blockman was created in GM");
         }
+
         void Handle_OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            LoadScene((int)SceneEnums.Scenes.MainMenu);
+            if (currentState == GameState.WaitingForUserToPressStart)
+            {
+                LoadScene((int)SceneEnums.Scenes.MainMenu);
+            }
         }
 
         IEnumerator<float> Main()
@@ -165,7 +169,7 @@ namespace APRLM.Game
                 //todo update pose list 9.6 updated pose list
                 currentPose = poseList[currentPoseIndex];
 
-                currentState = GameState.PlayScenePressed;
+                currentState = GameState.WaitingForUserToPressStart;
 
                 //this is here for testing if the pose list gets decremented, we want to load back to ReadyNextMenu irl
 
