@@ -36,6 +36,7 @@ namespace APRLM.Game
         public Pose currentPose;
         public GameObject[] blockman; //todo refactor into a blockmanMaker.cs
         public GameObject blockPrefab;
+        public int currentPoseIndex;
 
         protected override void Awake()
         {
@@ -147,7 +148,7 @@ namespace APRLM.Game
 
         IEnumerator<float> Main()
         {
-            for(int i=0;i<poseList.Count;i++)
+            for(currentPoseIndex = 0;currentPoseIndex <poseList.Count;currentPoseIndex ++)
             {
                 //Wait until the capture is completed, by capturing X skeletons
                 yield return Timing.WaitUntilTrue(() => currentState == GameState.CaptureCompleted);
@@ -157,13 +158,16 @@ namespace APRLM.Game
                 DebugRenderer.Instance.skeletons.Clear();
                 //9.4 we confirmed that list is clear before going into capture scene for the second time.
 
-                //Load the menu
-                //todo update pose list
+
+                //todo update pose list 9.6 updated pose list
+                currentPose = poseList[currentPoseIndex ];
+
+
                 currentState = GameState.PlayScenePressed;
 
                 //this is here for testing if the pose list gets decremented, we want to load back to ReadyNextMenu irl
-       
 
+                //Load the menu
                 LoadScene((int)SceneEnums.Scenes.MainMenu);
             }
         }

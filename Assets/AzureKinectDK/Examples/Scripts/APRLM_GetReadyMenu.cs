@@ -29,7 +29,8 @@ public class APRLM_GetReadyMenu : MonoBehaviour
         //DebugRenderer.Instance.canUpdate = true;
         //clear the skeletons before entering the capture scene
         //DebugRenderer.Instance.skeletons.Clear();
-        if(GameManager.Instance.poseList.Count > 0)
+        //9.6 if we have made it past the first iteration of the loop
+        if(GameManager.Instance.currentPoseIndex > 1)
         {
             DebugRenderer.Instance.canUpdate = true;
         }
