@@ -154,16 +154,16 @@ namespace APRLM.Game
                 print("capture completed, state change in GM");
 				
 				// 9.4.2019 saw 5 in the Skeletons length in inspector, can write out before clearing
-                //clear the list
                 DebugRenderer.Instance.skeletons.Clear();
-                ///addition 9.4/2019
-                //todo test if the skeletons are actually cleared when we get here, else they will need to be cleared GetRdyMenu.cs
+                //9.4 we confirmed that list is clear before going into capture scene for the second time.
 
                 //Load the menu
                 //todo update pose list
                 currentState = GameState.PlayScenePressed;
 
                 //this is here for testing if the pose list gets decremented, we want to load back to ReadyNextMenu irl
+       
+
                 LoadScene((int)SceneEnums.Scenes.MainMenu);
             }
         }

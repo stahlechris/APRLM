@@ -29,6 +29,10 @@ public class APRLM_GetReadyMenu : MonoBehaviour
         //DebugRenderer.Instance.canUpdate = true;
         //clear the skeletons before entering the capture scene
         //DebugRenderer.Instance.skeletons.Clear();
+        if(GameManager.Instance.poseList.Count > 0)
+        {
+            DebugRenderer.Instance.canUpdate = true;
+        }
         GameManager.Instance.LoadScene((int)SceneEnums.Scenes.Capture);
     }
 }
