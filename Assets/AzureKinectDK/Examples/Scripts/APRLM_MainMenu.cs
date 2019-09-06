@@ -11,6 +11,10 @@ namespace APRLM.UI
         [Tooltip("Dragged in manually!")]
         public Text poseText;
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
         //Start will ALWAYS run after GameManager's Awake()
         private void Start()
         {

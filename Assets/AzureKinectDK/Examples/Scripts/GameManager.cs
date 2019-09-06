@@ -158,10 +158,8 @@ namespace APRLM.Game
                 DebugRenderer.Instance.skeletons.Clear();
                 //9.4 we confirmed that list is clear before going into capture scene for the second time.
 
-
                 //todo update pose list 9.6 updated pose list
-                currentPose = poseList[currentPoseIndex ];
-
+                currentPose = poseList[currentPoseIndex];
 
                 currentState = GameState.PlayScenePressed;
 

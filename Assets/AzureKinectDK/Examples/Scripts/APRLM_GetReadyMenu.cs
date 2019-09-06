@@ -9,7 +9,10 @@ public class APRLM_GetReadyMenu : MonoBehaviour
     public Text countdownText;
     [Tooltip("Manually dragged in, else 2nd child")]
     public Text poseNameText;
-
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     void OnEnable()
     {
         poseNameText.text = GameManager.Instance.currentPose.ToString();
