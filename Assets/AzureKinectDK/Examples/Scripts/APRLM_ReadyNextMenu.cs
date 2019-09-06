@@ -9,10 +9,6 @@ namespace APRLM.UI
         [Tooltip("Dragged in manually, else 5th child")]
 		public Text poseNameText;
 
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
         void OnEnable()
 		{
             poseNameText.text = GameManager.Instance.currentPose.ToString();

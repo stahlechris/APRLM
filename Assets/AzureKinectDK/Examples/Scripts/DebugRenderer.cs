@@ -20,6 +20,7 @@ public class DebugRenderer : PersistantSingleton<DebugRenderer>
 
     public bool canUpdate;
     public static int count;
+
     protected override void Awake()
     {
         base.Awake();

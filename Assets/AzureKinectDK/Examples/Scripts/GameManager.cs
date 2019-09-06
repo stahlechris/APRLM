@@ -51,7 +51,7 @@ namespace APRLM.Game
             Debug.Log("gm start called");
             Timing.RunCoroutine(Main());
 
-            //SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneLoaded += Handle_OnSceneLoaded;
         }
         public List<Pose> GetPoseList()
         {
@@ -145,6 +145,10 @@ namespace APRLM.Game
             }
             print("Blockman was created in GM");
         }
+        void Handle_OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            LoadScene((int)SceneEnums.Scenes.MainMenu);
+        }
 
         IEnumerator<float> Main()
         {
@@ -165,8 +169,8 @@ namespace APRLM.Game
 
                 //this is here for testing if the pose list gets decremented, we want to load back to ReadyNextMenu irl
 
-                //Load the menu
-                LoadScene((int)SceneEnums.Scenes.MainMenu);
+                //Load the menu ////9.6 i tihnk we cant have loadscene call in a coroutine, awake is being called twice 
+                //LoadScene((int)SceneEnums.Scenes.MainMenu);
             }
         }
         //private void OnDisable()//a persistant singleton class will only have this called once, when program ending.

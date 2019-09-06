@@ -11,16 +11,12 @@ namespace APRLM.UI
         [Tooltip("Dragged in manually!")]
         public Text poseText;
 
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
-        //Start will ALWAYS run after GameManager's Awake()
         private void Start()
         {
             //Request pose data from GM
             ParsePoseList(GameManager.Instance.poseList);
         }
+
         private void ParsePoseList(List<Pose> poseList)
         {
             foreach(Pose p in poseList)
